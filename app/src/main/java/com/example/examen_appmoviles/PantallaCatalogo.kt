@@ -42,7 +42,7 @@ fun PantallaCatalogo(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Hola, $nombreUsuario", fontWeight = FontWeight.Bold) },
+                title = { Text("Bienvenido, $nombreUsuario que te gustaria ordenar?", fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer
                 )

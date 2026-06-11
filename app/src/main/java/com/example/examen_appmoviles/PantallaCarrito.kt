@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,6 +21,7 @@ fun PantallaCarrito(
     viewModel: BiteBoxViewModel,
     onVolverAlMenu: () -> Unit
 ) {
+    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(
@@ -50,11 +52,18 @@ fun PantallaCarrito(
 
                     Button(
                         onClick = {
-                            viewModel.vaciarCarrito() // Limpia la lista reactiva
-                            onVolverAlMenu() // Regresa al catálogo
+                            viewModel.vaciarCarrito()
+
+                            // Disparamos el mensaje flotante (Toast)
+                            android.widget.Toast.makeText(
+                                context,
+                                "¡Tu pedido se ha realizado con éxito !",
+                                android.widget.Toast.LENGTH_LONG
+                            ).show()
+
+                            onVolverAlMenu()
                         },
                         modifier = Modifier.fillMaxWidth().height(56.dp),
-                        // El botón solo funciona si hay cosas en el carrito
                         enabled = viewModel.carrito.isNotEmpty()
                     ) {
                         Text("Confirmar Pedido", fontSize = 18.sp, fontWeight = FontWeight.Bold)

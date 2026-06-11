@@ -1,10 +1,12 @@
 package com.example.examen_appmoviles
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -19,14 +21,17 @@ fun PantallaBienvenida(onNavigateToMenu: (String) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "BiteBox \uD83C\uDF54",
-            fontSize = 48.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary
+        // Logo en Imagen
+        Image(
+            painter = painterResource(id = R.drawable.logo_app),
+            contentDescription = "Logo de la aplicación",
+            modifier = Modifier.size(150.dp)
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+
+        Spacer(modifier = Modifier.height(16.dp))
 
         OutlinedTextField(
             value = nombre,
