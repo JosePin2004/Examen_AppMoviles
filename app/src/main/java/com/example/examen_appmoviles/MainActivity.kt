@@ -3,27 +3,32 @@ package com.example.examen_appmoviles
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.examen_appmoviles.ui.theme.Examen_AppMovilesTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            Examen_AppMovilesTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
+            Examen_AppMovilesTheme { // Reemplaza esto si tu tema tiene otro nombre
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    BiteBoxApp()
                 }
             }
         }
@@ -31,17 +36,31 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun BiteBoxApp() {
+    // Controladores de navegación y estado global
+    val navController = rememberNavController()
+    val viewModel: BiteBoxViewModel = viewModel()
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Examen_AppMovilesTheme {
-        Greeting("Android")
+    NavHost(navController = navController, startDestination = "login") {
+
+        // RUTA 1: Pantalla de Bienvenida
+        composable("login") {
+            PantallaBienvenida(onNavigateToMenu = { nombreUsuario ->
+                navController.navigate("menu/$nombreUsuario")
+            })
+        }
+
+        // RUTA 2: Menú (Temporalmente un texto para probar la navegación)
+        composable(
+            route = "menu/{nombre}",
+            arguments = listOf(navArgument("nombre") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val nombre = backStackEntry.arguments?.getString("nombre") ?: "Invitado"
+
+            // Pantalla temporal para comprobar que navegó y pasó el dato correctamente
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(text = "¡Navegación exitosa! Bienvenido, $nombre")
+            }
+        }
     }
 }
