@@ -83,6 +83,18 @@ fun BiteBoxApp() {
             )
         }
 
-        // (Aún nos falta la ruta del carrito, esa va en el siguiente paso)
-    }
-}
+        // (Tus otras rutas están aquí arriba)
+
+        // RUTA 4: Carrito
+        composable("carrito") {
+            PantallaCarrito(
+                viewModel = viewModel,
+                onVolverAlMenu = {
+                    // Devuelve a Pantalla 2 (Catálogo)
+                    navController.popBackStack()
+                }
+            )
+        }
+    } // <- Este es el cierre del NavHost
+} // <- Este es el cierre de la función BiteBoxApp
+
