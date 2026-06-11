@@ -50,17 +50,20 @@ fun BiteBoxApp() {
             })
         }
 
-        // RUTA 2: Menú (Temporalmente un texto para probar la navegación)
+        // RUTA 2: Menú (Recibe el nombre por ruta)
         composable(
             route = "menu/{nombre}",
             arguments = listOf(navArgument("nombre") { type = NavType.StringType })
         ) { backStackEntry ->
             val nombre = backStackEntry.arguments?.getString("nombre") ?: "Invitado"
 
-            // Pantalla temporal para comprobar que navegó y pasó el dato correctamente
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text(text = "¡Navegación exitosa! Bienvenido, $nombre")
-            }
+            PantallaCatalogo(
+                nombreUsuario = nombre,
+                viewModel = viewModel,
+                // Dejamos las rutas listas para las pantallas 3 y 4 (temporales por ahora)
+                onNavigateToDetalle = { platilloId -> navController.navigate("detalle/$platilloId") },
+                onNavigateToCarrito = { navController.navigate("carrito") }
+            )
         }
     }
 }
