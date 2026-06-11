@@ -65,5 +65,24 @@ fun BiteBoxApp() {
                 onNavigateToCarrito = { navController.navigate("carrito") }
             )
         }
+
+        // (Aquí arriba está tu ruta de login y la ruta de menu/{nombre})
+
+        // RUTA 3: Detalle (Recibe el ID del platillo por la ruta)
+        composable(
+            route = "detalle/{id}",
+            arguments = listOf(navArgument("id") { type = NavType.IntType })
+        ) { backStackEntry ->
+            // Extraemos el ID numérico de la ruta
+            val platilloId = backStackEntry.arguments?.getInt("id") ?: 0
+
+            PantallaDetalle(
+                platilloId = platilloId,
+                viewModel = viewModel,
+                onBack = { navController.popBackStack() } // popBackStack te devuelve a la vista anterior
+            )
+        }
+
+        // (Aún nos falta la ruta del carrito, esa va en el siguiente paso)
     }
 }
