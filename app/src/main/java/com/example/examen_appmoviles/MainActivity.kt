@@ -95,6 +95,6 @@ fun BiteBoxApp() {
                 }
             )
         }
-    } // <- Este es el cierre del NavHost
-} // <- Este es el cierre de la función BiteBoxApp
+    }
+}
 

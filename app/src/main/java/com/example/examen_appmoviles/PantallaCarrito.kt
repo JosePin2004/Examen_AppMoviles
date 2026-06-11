@@ -3,12 +3,16 @@ package com.example.examen_appmoviles
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -63,9 +67,19 @@ fun PantallaCarrito(
             modifier = Modifier.padding(paddingValues).fillMaxSize(),
             contentPadding = PaddingValues(16.dp)
         ) {
-            // Recorremos la lista del carrito desde el ViewModel
             items(viewModel.carrito) { platillo ->
                 ListItem(
+                    // AQUÍ AGREGAMOS LA IMAGEN DEL PEDIDO
+                    leadingContent = {
+                        AsyncImage(
+                            model = platillo.urlImagen,
+                            contentDescription = platillo.nombre,
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(64.dp)
+                                .clip(CutCornerShape(8.dp)) // Usando el borde cortado para mantener el estilo
+                        )
+                    },
                     headlineContent = { Text(platillo.nombre, fontWeight = FontWeight.SemiBold) },
                     supportingContent = { Text(platillo.categoria) },
                     trailingContent = {

@@ -4,6 +4,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CutCornerShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -83,37 +84,41 @@ fun PantallaCatalogo(
             }
 
             // Lista de Platillos
+            // Lista de Platillos (Cumpliendo la regla del LazyColumn)
             LazyColumn(modifier = Modifier.fillMaxSize()) {
                 items(platillosFiltrados) { platillo ->
                     Card(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
-                            .clickable { onNavigateToDetalle(platillo.id) }, // Navega enviando el ID
-                        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+                            .padding(horizontal = 16.dp, vertical = 12.dp) // Un poco más de espacio vertical
+                            .clickable { onNavigateToDetalle(platillo.id) },
+                        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
+                        shape = CutCornerShape(topStart = 16.dp, bottomEnd = 16.dp) // Bordes con estilo único
                     ) {
-                        Row(
-                            modifier = Modifier.padding(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            // Imagen cargada de internet con Coil
+                        // Cambiamos Row por Column para apilar imagen y texto
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            // Imagen ancha en la parte superior
                             AsyncImage(
                                 model = platillo.urlImagen,
                                 contentDescription = platillo.nombre,
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
-                                    .size(90.dp)
-                                    .clip(RoundedCornerShape(8.dp))
+                                    .fillMaxWidth()
+                                    .height(180.dp)
                             )
 
-                            Spacer(modifier = Modifier.width(16.dp))
-
-                            // Textos de la tarjeta
-                            Column {
-                                Text(text = platillo.nombre, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                                Text(text = platillo.categoria, color = MaterialTheme.colorScheme.secondary, fontSize = 14.sp)
+                            // Textos en la parte inferior
+                            Column(modifier = Modifier.padding(16.dp)) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(text = platillo.nombre, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                                    Text(text = "$${platillo.precio}", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary, fontSize = 18.sp)
+                                }
                                 Spacer(modifier = Modifier.height(4.dp))
-                                Text(text = "$${platillo.precio}", fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary)
+                                Text(text = platillo.categoria, color = MaterialTheme.colorScheme.secondary, fontSize = 14.sp)
                             }
                         }
                     }
